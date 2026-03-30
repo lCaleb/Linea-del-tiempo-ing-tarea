@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generaciones de los Computadores</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #070b16;
+      --bg-2: #0d1326;
+      --card: rgba(16, 22, 42, 0.72);
+      --line: rgba(255,255,255,0.1);
+      --text: #eef2ff;
+      --muted: #9aa6d1;
+      --shadow: 0 20px 50px rgba(0,0,0,.35);
+      --g1: #8b5cf6;
+      --g2: #22d3ee;
+      --g3: #f59e0b;
+      --g4: #f43f5e;
+      --g5: #22c55e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(139,92,246,.18), transparent 20%),
+        radial-gradient(circle at 85% 15%, rgba(34,211,238,.14), transparent 18%),
+        radial-gradient(circle at 65% 85%, rgba(245,158,11,.10), transparent 18%),
+        linear-gradient(180deg, #060914 0%, #0b1120 55%, #060914 100%);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    #particles {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: .9;
+    }
+
+    .noise {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: .06;
+      background-image:
+        radial-gradient(circle at 20% 20%, white 0.5px, transparent 1px),
+        radial-gradient(circle at 80% 40%, white 0.5px, transparent 1px),
+        radial-gradient(circle at 45% 70%, white 0.6px, transparent 1.2px);
+      background-size: 180px 180px, 220px 220px, 260px 260px;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      width: min(1320px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 44px 0 72px;
+    }
+
+    .hero {
+      position: relative;
+      min-height: calc(100svh - 44px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 32px 20px 32px;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-self: center;
+      align-items: center;
+      gap: 10px;
+      max-width: fit-content;
+      padding: 10px 18px;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      color: #d7defc;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2.4px;
+      text-transform: uppercase;
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+      margin: 0 auto 22px;
+    }
+
+    .hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2rem, 5vw, 4.2rem);
+      line-height: 1.05;
+      letter-spacing: -1px;
+      max-width: 980px;
+      margin: 0 auto 16px;
+      background: linear-gradient(135deg, #fff 5%, #c4b5fd 35%, #67e8f9 65%, #fcd34d 95%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      max-width: 860px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: clamp(.98rem, 1.8vw, 1.12rem);
+      line-height: 1.75;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 26px;
+    }
+
+    .hero-stat {
+      min-width: 160px;
+      padding: 14px 18px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 18px;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-stat strong {
+      display: block;
+      font-size: 1.12rem;
+      margin-bottom: 4px;
+    }
+
+    .hero-stat span {
+      color: var(--muted);
+      font-size: .92rem;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 28px 0 24px;
+    }
+
+    .btn {
+      appearance: none;
+      border: 1px solid rgba(255,255,255,.1);
+      background: rgba(255,255,255,.045);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 12px 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: .25s ease;
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,.085);
+    }
+
+    .timeline {
+      position: relative;
+      padding: 70px 0 30px;
+    }
+
+    .spine {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      transform: translateX(-50%);
+      background: linear-gradient(180deg, var(--g1), var(--g2), var(--g3), var(--g4), var(--g5));
+      border-radius: 999px;
+      box-shadow: 0 0 24px rgba(103, 232, 249, 0.12);
+    }
+
+    .timeline-item {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 80px 1fr;
+      align-items: stretch;
+      margin-bottom: 46px;
+      opacity: 0;
+      transform: translateY(34px);
+      transition: opacity .8s ease, transform .8s ease;
+    }
+
+    .timeline-item.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .left { grid-column: 1; }
+    .right { grid-column: 3; }
+
+    .left,
+    .right {
+      display: flex;
+      align-items: center;
+    }
+
+    .left {
+      justify-content: flex-end;
+    }
+
+    .right {
+      justify-content: flex-start;
+    }
+
+    .card {
+      width: min(100%, 520px);
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 26px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-6px) scale(1.01);
+      border-color: rgba(255,255,255,.16);
+      box-shadow: 0 22px 55px rgba(0,0,0,.42);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: var(--accent);
+    }
+
+    .card-media {
+      position: relative;
+      height: 260px;
+      overflow: hidden;
+      background: #0b1020;
+      z-index: 0;
+    }
+
+    .card-media img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      transition: transform 2.4s ease, filter 1s ease;
+      filter: saturate(1.05) contrast(1.05);
+    }
+
+    .card:hover .card-media img { transform: scale(1.02); }
+
+    .card-media::after {
+      display: none;
+    }
+
+    .carousel-slide {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      transform: translateX(100%);
+      transition: transform .45s ease;
+      cursor: zoom-in;
+      z-index: 1;
+    }
+
+    .carousel-slide.active {
+      pointer-events: auto;
+      transform: translateX(0);
+      z-index: 2;
+    }
+
+    .carousel-slide.from-left {
+      transform: translateX(-100%);
+      z-index: 1;
+    }
+
+    .carousel-slide.to-left {
+      transform: translateX(-100%);
+      z-index: 2;
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(7, 11, 22, .72);
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      z-index: 3;
+      backdrop-filter: blur(8px);
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+    }
+
+    .carousel-btn.prev { left: 12px; }
+    .carousel-btn.next { right: 12px; }
+
+    .carousel-btn:hover {
+      background: rgba(12, 18, 34, .88);
+      border-color: rgba(255,255,255,.22);
+    }
+
+    .carousel-btn:active {
+      transform: translateY(-50%) scale(.92);
+      background: rgba(5, 9, 18, .96);
+    }
+
+    .carousel-dots {
+      position: absolute;
+      left: 50%;
+      bottom: 14px;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 3;
+    }
+
+    .carousel-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      border: 0;
+      padding: 0;
+      background: rgba(255,255,255,.28);
+      cursor: pointer;
+    }
+
+    .carousel-dot.active {
+      background: white;
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent);
+    }
+
+    .card-body {
+      position: relative;
+      z-index: 2;
+      padding: 20px 20px 22px;
+      background: rgba(16, 22, 42, 0.98);
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 12px;
+      align-items: center;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 11px;
+      border-radius: 999px;
+      font-size: .76rem;
+      font-weight: 700;
+      letter-spacing: .7px;
+      text-transform: uppercase;
+      background: color-mix(in srgb, var(--accent) 18%, transparent);
+      color: var(--accent);
+      border: 1px solid color-mix(in srgb, var(--accent) 35%, rgba(255,255,255,.15));
+    }
+
+    .year {
+      color: #dbe4ff;
+      font-weight: 700;
+      font-size: .92rem;
+    }
+
+    .card h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.65rem;
+      margin-bottom: 10px;
+      color: white;
+    }
+
+    .card p {
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: .98rem;
+    }
+
+    .bullets {
+      margin-top: 14px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .bullets div {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 14px;
+      padding: 10px 12px;
+      color: #dce5ff;
+      font-size: .93rem;
+    }
+
+    .center {
+      grid-column: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      min-height: 100%;
+    }
+
+    .node {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 7px color-mix(in srgb, var(--accent) 22%, transparent), 0 0 30px color-mix(in srgb, var(--accent) 35%, transparent);
+      border: 4px solid #09101f;
+      position: absolute;
+      top: var(--anchor-top, 50%);
+      transform: translateY(-50%);
+      z-index: 2;
+    }
+
+    .connector {
+      position: absolute;
+      top: var(--anchor-top, 50%);
+      transform: translateY(-50%);
+      width: 50%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent));
+    }
+
+    .timeline-item:nth-of-type(even) .connector {
+      left: 50%;
+      background: linear-gradient(90deg, var(--accent), transparent);
+    }
+
+    .timeline-item:nth-of-type(odd) .connector {
+      right: 50%;
+      background: linear-gradient(270deg, var(--accent), transparent);
+    }
+
+    .sources, .closing {
+      margin-top: 28px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .sources h3, .closing h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      margin-bottom: 12px;
+      font-size: 1.35rem;
+    }
+
+    .sources ul {
+      padding-left: 20px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .closing p {
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 1rem;
+    }
+
+    .footer {
+      text-align: center;
+      color: #95a3ce;
+      font-size: .92rem;
+      padding: 28px 12px 8px;
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 7, 18, .9);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+      z-index: 10;
+      backdrop-filter: blur(10px);
+    }
+
+    .lightbox.active { display: flex; }
+
+    .lightbox-content {
+      max-width: min(1100px, 100%);
+      width: 100%;
+      position: relative;
+      animation: zoomIn .3s ease;
+    }
+
+    .lightbox img {
+      width: 100%;
+      height: 100%;
+      max-height: none;
+      object-fit: contain;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: 0 30px 80px rgba(0,0,0,.55);
+      background: #09101f;
+    }
+
+    .lightbox-stage {
+      position: relative;
+      width: 100%;
+      height: min(72vh, 760px);
+      margin-bottom: 34px;
+    }
+
+    .lightbox-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .45s ease;
+    }
+
+    .lightbox-slide.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lightbox-nav {
+      z-index: 12;
+    }
+
+    .lightbox-dots {
+      position: absolute;
+      left: 50%;
+      bottom: -18px;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 12;
+    }
+
+    .lightbox-caption {
+      color: #dbe6ff;
+      margin-top: 8px;
+      font-size: .98rem;
+      text-align: center;
+    }
+
+    .close {
+      position: absolute;
+      top: -12px;
+      right: -12px;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.08);
+      color: white;
+      cursor: pointer;
+      font-size: 1.2rem;
+      backdrop-filter: blur(10px);
+    }
+
+    @keyframes zoomIn {
+      from { opacity: 0; transform: scale(.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @media (max-width: 980px) {
+      .hero {
+        min-height: calc(100svh - 24px);
+      }
+      .timeline { padding-top: 30px; }
+      .spine {
+        left: 18px;
+        transform: none;
+      }
+      .timeline-item {
+        grid-template-columns: 36px 1fr;
+        gap: 16px;
+        margin-bottom: 28px;
+      }
+      .left, .right { grid-column: 2 !important; }
+      .center {
+        grid-column: 1;
+        justify-content: flex-start;
+        align-items: center;
+      }
+      .node {
+        position: relative;
+        top: auto;
+        transform: none;
+      }
+      .connector {
+        display: none;
+      }
+      .card { width: 100%; }
+      .card-media { height: 210px; }
+    }
+
+    @media (max-width: 620px) {
+      .container { width: min(100% - 18px, 1320px); }
+      .hero { padding-inline: 8px; }
+      .card-body { padding: 18px; }
+      .sources, .closing { padding: 18px; }
+      .hero-stats { gap: 10px; }
+      .hero-stat { min-width: 135px; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particles"></canvas>
+  <div class="noise"></div>
+
+  <main class="container">
+    <section class="hero">
+      <div class="badge">Historia de la computación · Línea de tiempo interactiva</div>
+      <h1>Generaciones de los Computadores</h1>
+      <p>
+        Desde enormes máquinas con válvulas de vacío hasta sistemas impulsados por inteligencia artificial,
+        esta línea de tiempo muestra cómo la computación evolucionó en velocidad, tamaño, capacidad y forma de interacción con las personas.
+      </p>
+
+      <div class="hero-stats">
+        <div class="hero-stat"><strong>5 generaciones</strong><span>Etapas clave de evolución</span></div>
+        <div class="hero-stat"><strong>1940 - Hoy</strong><span>Más de 80 años de avance</span></div>
+        <div class="hero-stat"><strong>Interactivo</strong><span>Haz clic en las imágenes</span></div>
+      </div>
+
+      <div class="controls">
+        <button class="btn" id="fullscreenBtn">⛶ Pantalla completa</button>
+        <button class="btn" onclick="document.getElementById('timeline').scrollIntoView({behavior:'smooth'})">↓ Ver línea de tiempo</button>
+      </div>
+    </section>
+
+    <section class="timeline" id="timeline">
+      <div class="spine"></div><!--  -->
+
+      <article class="timeline-item" style="--accent: var(--g1)">
+        <div class="left">
+          <div class="card">
+            <div class="card-media" data-caption="En 1951 aparece la UNIVAC I, la primera computadora comercial, utilizada en el censo de EE.UU. Destaca también la IBM 650, que empleaba tambor magnético, antecedente de los discos actuales.">
+              <img class="carousel-slide active" src="Assets/primera1.webp" alt="Primera generación, imagen 1">
+              <img class="carousel-slide" src="Assets/primera2.jpg" alt="Primera generación, imagen 2">
+              <img class="carousel-slide" src="Assets/primera3.png" alt="Primera generación, imagen 3">
+              <img class="carousel-slide" src="Assets/primera4.jpg" alt="Primera generación, imagen 4">
+              <img class="carousel-slide" src="Assets/primera5.jpg" alt="Primera generación, imagen 5">
+              <button class="carousel-btn prev" type="button" aria-label="Imagen anterior">‹</button>
+              <button class="carousel-btn next" type="button" aria-label="Imagen siguiente">›</button>
+              <div class="carousel-dots"></div>
+            </div>
+            <div class="card-body">
+              <div class="meta">
+                <span class="chip">Primera generación</span>
+                <span class="year">1940 - 1956</span>
+              </div>
+              <h2>Válvulas de vacío</h2>
+              <p>
+                Los primeros computadores electrónicos utilizaban miles de válvulas de vacío. Eran equipos enormes,
+                costosos, de alto consumo energético y programación compleja en lenguaje máquina.
+              </p>
+              <div class="bullets">
+                <div><strong>Tecnología clave:</strong> válvulas de vacío.</div>
+                <div><strong>Características:</strong> gran tamaño, calor elevado y baja portabilidad.</div>
+                <div><strong>Ejemplos:</strong> ENIAC y UNIVAC I, IBM 650.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="center">
+          <div class="connector"></div>
+          <div class="node"></div>
+        </div>
+        <div class="right"></div>
+      </article>
+
+      <article class="timeline-item" style="--accent: var(--g2)">
+        <div class="left"></div>
+        <div class="center">
+          <div class="connector"></div>
+          <div class="node"></div>
+        </div>
+        <div class="right">
+          <div class="card">
+            <div class="card-media" data-caption="En la segunda generación se definió la programación de sistemas y surgieron computadoras más avanzadas como la Burroughs 5000 y la ATLAS. El trabajo se realizaba por equipos especializados. Se utilizó memoria de núcleos magnéticos y se alcanzaron mayores velocidades, como en la IBM 7090.">
+              <img class="carousel-slide active" src="Assets/Segunda1.png" alt="Segunda generación, imagen 1">
+              <img class="carousel-slide" src="Assets/Segunda2.png" alt="Segunda generación, imagen 2">
+              <img class="carousel-slide" src="Assets/segunda3.jpg" alt="Segunda generación, imagen 3">
+              <img class="carousel-slide" src="Assets/Segunda4.webp" alt="Segunda generación, imagen 4">
+              <img class="carousel-slide" src="Assets/Segunad5.gif" alt="Segunda generación, imagen 5">
+              <button class="carousel-btn prev" type="button" aria-label="Imagen anterior">‹</button>
+              <button class="carousel-btn next" type="button" aria-label="Imagen siguiente">›</button>
+              <div class="carousel-dots"></div>
+            </div>
+            <div class="card-body">
+              <div class="meta">
+                <span class="chip">Segunda generación</span>
+                <span class="year">1956 - 1964</span>
+              </div>
+              <h2>Transistores</h2>
+              <p>
+                El transistor reemplazó a las válvulas, haciendo los computadores más pequeños, rápidos, confiables y eficientes.
+                En esta etapa surgieron lenguajes de alto nivel que facilitaron la programación.
+              </p>
+              <div class="bullets">
+                <div><strong>Tecnología clave:</strong> transistores.</div>
+                <div><strong>Ventaja:</strong> menor tamaño y mayor fiabilidad.</div>
+                <div><strong>Lenguajes:</strong> COBOL y FORTRAN.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="timeline-item" style="--accent: var(--g3)">
+        <div class="left">
+          <div class="card">
+            <div class="card-media" data-caption="En la tercera generación los transistores se integraron en circuitos de silicio, dando origen a los semiconductores. Se consolidó el concepto de software y surgieron avances como los minicomputadores y la serie IBM 360, que introdujo tecnologías hoy estándar.">
+              <img class="carousel-slide active" src="Assets/tercera1.png" alt="Tercera generación, imagen 1">
+              <img class="carousel-slide" src="Assets/tercera2.jpg" alt="Tercera generación, imagen 2">
+              <img class="carousel-slide" src="Assets/tercera3.jpg" alt="Tercera generación, imagen 3">
+              <img class="carousel-slide" src="Assets/tercera4.jpg" alt="Tercera generación, imagen 4">
+              <img class="carousel-slide" src="Assets/tercera5.jpg.png" alt="Tercera generación, imagen 5">
+              <button class="carousel-btn prev" type="button" aria-label="Imagen anterior">‹</button>
+              <button class="carousel-btn next" type="button" aria-label="Imagen siguiente">›</button>
+              <div class="carousel-dots"></div>
+            </div>
+            <div class="card-body">
+              <div class="meta">
+                <span class="chip">Tercera generación</span>
+                <span class="year">1964 - 1971</span>
+              </div>
+              <h2>Circuitos integrados</h2>
+              <p>
+                La integración de varios transistores en un solo chip permitió aumentar el rendimiento y reducir aún más el tamaño.
+                También aparecieron sistemas operativos más sólidos y la multiprogramación.
+              </p>
+              <div class="bullets">
+                <div><strong>Tecnología clave:</strong> circuitos integrados.</div>
+                <div><strong>Mejora:</strong> mayor velocidad y menor costo.</div>
+                <div><strong>Ejemplo:</strong> IBM System/360.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="center">
+          <div class="connector"></div>
+          <div class="node"></div>
+        </div>
+        <div class="right"></div>
+      </article>
+
+      <article class="timeline-item" style="--accent: var(--g4)">
+        <div class="left"></div>
+        <div class="center">
+          <div class="connector"></div>
+          <div class="node"></div>
+        </div>
+        <div class="right">
+          <div class="card">
+            <div class="card-media" data-caption="La cuarta generación introduce los microprocesadores, permitiendo computadoras más pequeñas y accesibles. Surgen las computadoras personales y empresas como Apple. Entre 1981 y 1987 su crecimiento fue masivo, alcanzando millones de equipos vendidos. Además, el software evolucionó significativamente, haciendo la interacción con el usuario más sencilla e intuitiva.">
+              <img class="carousel-slide active" src="Assets/cuarta1.png" alt="Cuarta generación, imagen 1">
+              <img class="carousel-slide" src="Assets/cuarta2.jpg" alt="Cuarta generación, imagen 2">
+              <img class="carousel-slide" src="Assets/cuarta3.jpg" alt="Cuarta generación, imagen 3">
+              <img class="carousel-slide" src="Assets/cuarta4.jpg" alt="Cuarta generación, imagen 4">
+              <img class="carousel-slide" src="Assets/cuarta5.jpg" alt="Cuarta generación, imagen 5">
+              <button class="carousel-btn prev" type="button" aria-label="Imagen anterior">‹</button>
+              <button class="carousel-btn next" type="button" aria-label="Imagen siguiente">›</button>
+              <div class="carousel-dots"></div>
+            </div>
+            <div class="card-body">
+              <div class="meta">
+                <span class="chip">Cuarta generación</span>
+                <span class="year">1971 - 2010</span>
+              </div>
+              <h2>Microprocesadores</h2>
+              <p>
+                La CPU pasó a integrarse en un solo chip. Esto impulsó la creación de computadores personales,
+                interfaces gráficas, expansión del software y acceso masivo a internet.
+              </p>
+              <div class="bullets">
+                <div><strong>Tecnología clave:</strong> microprocesadores.</div>
+                <div><strong>Impacto:</strong> masificación de los PC.</div>
+                <div><strong>Ejemplos:</strong> Intel 4004, Apple II e IBM PC.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="timeline-item" style="--accent: var(--g5)">
+        <div class="left">
+          <div class="card">
+            <div class="card-media" data-caption="La evolución de los computadores no solo ha sido tecnológica, sino también funcional, pasando de máquinas enormes y limitadas a sistemas inteligentes capaces de aprender, adaptarse y transformar la forma en que interactuamos con el mundo y nuevas fronteras como la computación cuántica.">
+              <img class="carousel-slide active" src="Assets/quinta1webp.webp" alt="Quinta generación, imagen 1">
+              <img class="carousel-slide" src="Assets/quinta2.jpg" alt="Quinta generación, imagen 2">
+              <img class="carousel-slide" src="Assets/quinta3.webp" alt="Quinta generación, imagen 3">
+              <img class="carousel-slide" src="Assets/quinta4.avif" alt="Quinta generación, imagen 4">
+              <img class="carousel-slide" src="Assets/quinta5.webp" alt="Quinta generación, imagen 5">
+              <button class="carousel-btn prev" type="button" aria-label="Imagen anterior">‹</button>
+              <button class="carousel-btn next" type="button" aria-label="Imagen siguiente">›</button>
+              <div class="carousel-dots"></div>
+            </div>
+            <div class="card-body">
+              <div class="meta">
+                <span class="chip">Quinta generación</span>
+                <span class="year">2010 - actualidad</span>
+              </div>
+              <h2>Inteligencia artificial</h2>
+              <p>
+                La computación actual se caracteriza por sistemas capaces de aprender, reconocer patrones, automatizar tareas
+                y apoyar decisiones. También se exploran áreas como redes neuronales profundas y computación cuántica.
+              </p>
+              <div class="bullets">
+                <div><strong>Tecnología clave:</strong> IA y aprendizaje automático.</div>
+                <div><strong>Tendencia:</strong> sistemas más autónomos e inteligentes.</div>
+                <div><strong>Campos:</strong> visión artificial, voz, LLM y computación cuántica.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="center">
+          <div class="connector"></div>
+          <div class="node"></div>
+        </div>
+        <div class="right"></div>
+      </article>
+    </section>
+
+    <section class="closing">
+      <h3>Conclusión</h3>
+      <p>
+        La evolución de los computadores evidencia un proceso continuo de innovación, caracterizado por la miniaturización, el aumento en la capacidad de procesamiento y la incorporación de inteligencia en los sistemas. Cada generación ha contribuido al desarrollo de tecnologías que hoy son fundamentales en la vida cotidiana.
+      </p>
+    </section>
+
+    <section class="sources">
+      <h3>Bibliografía sugerida en APA</h3>
+      <ul>
+        <li>Patterson, D. A., &amp; Hennessy, J. L. (2017). <em>Computer organization and design: The hardware/software interface</em> (5th ed.). Morgan Kaufmann.</li>
+        <li>Tanenbaum, A. S., &amp; Austin, T. (2013). <em>Structured computer organization</em> (6th ed.). Pearson.</li>
+        <li>Sinha, P. K., &amp; Sinha, P. (2007). <em>Computer fundamentals</em> (6th ed.). BPB Publications.</li>
+      </ul>
+    </section>
+
+    <div class="footer">Presentación web sobre las generaciones de los computadores · Hecha en HTML, CSS y JavaScript</div>
+  </main>
+
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-content">
+      <button class="close" id="closeLightbox" aria-label="Cerrar">✕</button>
+      <div class="lightbox-stage" id="lightboxStage"></div>
+      <button class="carousel-btn lightbox-nav prev" id="lightboxPrev" type="button" aria-label="Imagen anterior">‹</button>
+      <button class="carousel-btn lightbox-nav next" id="lightboxNext" type="button" aria-label="Imagen siguiente">›</button>
+      <div class="lightbox-dots" id="lightboxDots"></div>
+      <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+  </div>
+
+  <script>
+    const items = document.querySelectorAll('.timeline-item');
+    
+    function alignTimelineNodes() {
+      items.forEach(item => {
+        const card = item.querySelector('.card');
+        const center = item.querySelector('.center');
+        if (!card || !center) return;
+
+        const itemRect = item.getBoundingClientRect();
+        const cardRect = card.getBoundingClientRect();
+        const anchorTop = (cardRect.top - itemRect.top) + (cardRect.height / 2);
+        center.style.setProperty('--anchor-top', `${anchorTop}px`);
+      });
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        }
+      });
+    }, { threshold: 0.18 });
+    items.forEach(item => observer.observe(item));
+
+    window.addEventListener('load', alignTimelineNodes);
+    window.addEventListener('resize', alignTimelineNodes);
+
+    const lightbox = document.getElementById('lightbox');
+    const lightboxStage = document.getElementById('lightboxStage');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    const lightboxDots = document.getElementById('lightboxDots');
+    const lightboxPrev = document.getElementById('lightboxPrev');
+    const lightboxNext = document.getElementById('lightboxNext');
+    const closeLightbox = document.getElementById('closeLightbox');
+    const carouselState = new WeakMap();
+    let lightboxSlides = [];
+    let lightboxCurrent = 0;
+    let lightboxTimer = null;
+
+    function restartLightboxAutoplay() {
+      clearInterval(lightboxTimer);
+      if (!lightbox.classList.contains('active') || lightboxSlides.length < 2) return;
+      lightboxTimer = setInterval(() => renderLightboxSlide(lightboxCurrent + 1), 4000);
+    }
+
+    function renderLightboxSlide(index) {
+      if (!lightboxSlides.length) return;
+      lightboxCurrent = (index + lightboxSlides.length) % lightboxSlides.length;
+      Array.from(lightboxStage.querySelectorAll('.lightbox-slide')).forEach((slide, slideIndex) => {
+        slide.classList.toggle('active', slideIndex === lightboxCurrent);
+      });
+      Array.from(lightboxDots.querySelectorAll('.carousel-dot')).forEach((dot, dotIndex) => {
+        dot.classList.toggle('active', dotIndex === lightboxCurrent);
+      });
+    }
+
+    function openLightbox(media, startIndex) {
+      lightboxSlides = Array.from(media.querySelectorAll('.carousel-slide')).map(slide => ({
+        src: slide.src,
+        alt: slide.alt
+      }));
+      lightboxCurrent = startIndex;
+      lightboxStage.innerHTML = lightboxSlides.map((slide, index) =>
+        `<img class="lightbox-slide${index === startIndex ? ' active' : ''}" src="${slide.src}" alt="${slide.alt}">`
+      ).join('');
+      lightboxDots.innerHTML = '';
+      lightboxSlides.forEach((_, index) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = `carousel-dot${index === startIndex ? ' active' : ''}`;
+        dot.setAttribute('aria-label', `Ir a imagen ${index + 1}`);
+        dot.addEventListener('click', (event) => {
+          event.stopPropagation();
+          renderLightboxSlide(index);
+          restartLightboxAutoplay();
+        });
+        lightboxDots.appendChild(dot);
+      });
+      lightboxCaption.textContent = media.dataset.caption || lightboxSlides[startIndex]?.alt || '';
+      lightbox.classList.add('active');
+      restartLightboxAutoplay();
+    }
+
+    document.querySelectorAll('.card-media').forEach(media => {
+      const slides = Array.from(media.querySelectorAll('.carousel-slide'));
+      const prevBtn = media.querySelector('.carousel-btn.prev');
+      const nextBtn = media.querySelector('.carousel-btn.next');
+      const dots = media.querySelector('.carousel-dots');
+      let current = 0;
+      let timer = null;
+      let animating = false;
+
+      function renderSlide(index) {
+        const nextIndex = (index + slides.length) % slides.length;
+        if (nextIndex === current || animating) return;
+
+        const currentSlide = slides[current];
+        const nextSlide = slides[nextIndex];
+        const movingForward = nextIndex > current || (current === slides.length - 1 && nextIndex === 0);
+        animating = true;
+
+        slides.forEach(slide => {
+          slide.classList.remove('active', 'from-left', 'to-left');
+          slide.style.transition = 'none';
+        });
+
+        currentSlide.classList.add('active');
+        if (!movingForward) {
+          nextSlide.classList.add('from-left');
+        }
+        nextSlide.style.transform = movingForward ? 'translateX(100%)' : '';
+        void nextSlide.offsetWidth;
+
+        slides.forEach(slide => {
+          slide.style.transition = '';
+        });
+
+        if (movingForward) {
+          currentSlide.classList.add('to-left');
+          currentSlide.style.transform = '';
+        } else {
+          currentSlide.style.transform = 'translateX(100%)';
+        }
+        nextSlide.classList.add('active');
+        nextSlide.classList.remove('from-left');
+        nextSlide.style.transform = '';
+
+        if (dots) {
+          dots.querySelectorAll('.carousel-dot').forEach((dot, dotIndex) => {
+            dot.classList.toggle('active', dotIndex === nextIndex);
+          });
+        }
+
+        window.setTimeout(() => {
+          slides.forEach((slide, slideIndex) => {
+            slide.classList.remove('active', 'from-left', 'to-left');
+            slide.style.transition = '';
+            slide.style.transform = '';
+            if (slideIndex === nextIndex) {
+              slide.classList.add('active');
+            }
+          });
+          current = nextIndex;
+          animating = false;
+        }, 460);
+      }
+
+      function restartAutoplay() {
+        clearInterval(timer);
+        if (slides.length < 2) return;
+        timer = setInterval(() => renderSlide(current + 1), 4000);
+      }
+
+      if (dots) {
+        slides.forEach((_, index) => {
+          const dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className = `carousel-dot${index === 0 ? ' active' : ''}`;
+          dot.setAttribute('aria-label', `Ir a imagen ${index + 1}`);
+          dot.addEventListener('click', (event) => {
+            event.stopPropagation();
+            renderSlide(index);
+            restartAutoplay();
+          });
+          dots.appendChild(dot);
+        });
+      }
+
+      prevBtn?.addEventListener('click', (event) => {
+        event.stopPropagation();
+        renderSlide(current - 1);
+        restartAutoplay();
+      });
+
+      nextBtn?.addEventListener('click', (event) => {
+        event.stopPropagation();
+        renderSlide(current + 1);
+        restartAutoplay();
+      });
+
+      media.addEventListener('click', () => {
+        openLightbox(media, current);
+      });
+
+      media.addEventListener('mouseenter', () => clearInterval(timer));
+      media.addEventListener('mouseleave', restartAutoplay);
+      carouselState.set(media, { getCurrent: () => current });
+      restartAutoplay();
+    });
+
+    document.querySelectorAll('.card-media img').forEach(img => {
+      if (img.complete) return;
+      img.addEventListener('load', alignTimelineNodes);
+    });
+
+    function closeLb() {
+      lightbox.classList.remove('active');
+      clearInterval(lightboxTimer);
+    }
+    closeLightbox.addEventListener('click', closeLb);
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLb(); });
+    lightboxPrev.addEventListener('click', (event) => {
+      event.stopPropagation();
+      renderLightboxSlide(lightboxCurrent - 1);
+      restartLightboxAutoplay();
+    });
+    lightboxNext.addEventListener('click', (event) => {
+      event.stopPropagation();
+      renderLightboxSlide(lightboxCurrent + 1);
+      restartLightboxAutoplay();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLb();
+      if (!lightbox.classList.contains('active')) return;
+      if (e.key === 'ArrowLeft') {
+        renderLightboxSlide(lightboxCurrent - 1);
+        restartLightboxAutoplay();
+      }
+      if (e.key === 'ArrowRight') {
+        renderLightboxSlide(lightboxCurrent + 1);
+        restartLightboxAutoplay();
+      }
+    });
+
+    const fsBtn = document.getElementById('fullscreenBtn');
+    fsBtn.addEventListener('click', async () => {
+      if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        await document.exitFullscreen().catch(() => {});
+      }
+    });
+
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth * devicePixelRatio;
+      canvas.height = window.innerHeight * devicePixelRatio;
+      canvas.style.width = window.innerWidth + 'px';
+      canvas.style.height = window.innerHeight + 'px';
+      ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+      createParticles();
+    }
+
+    function createParticles() {
+      const count = Math.min(90, Math.floor(window.innerWidth / 18));
+      particles = Array.from({ length: count }, () => ({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        r: Math.random() * 1.9 + 0.4,
+        vx: (Math.random() - 0.5) * 0.18,
+        vy: (Math.random() - 0.5) * 0.18,
+        a: Math.random() * 0.55 + 0.15
+      }));
+    }
+
+    function drawParticles() {
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      for (const p of particles) {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0) p.x = window.innerWidth;
+        if (p.x > window.innerWidth) p.x = 0;
+        if (p.y < 0) p.y = window.innerHeight;
+        if (p.y > window.innerHeight) p.y = 0;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${p.a})`;
+        ctx.fill();
+      }
+      requestAnimationFrame(drawParticles);
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    drawParticles();
+  </script>
+</body>
+</html>
