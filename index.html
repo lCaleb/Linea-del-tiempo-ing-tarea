@@ -568,18 +568,35 @@
     }
 
     .close {
-      position: absolute;
-      top: -12px;
-      right: -12px;
+      position: fixed;
+      top: 18px;
+      right: 18px;
       width: 46px;
       height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      line-height: 1;
       border-radius: 50%;
-      border: 1px solid rgba(255,255,255,.18);
-      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.24);
+      background: rgba(6, 10, 20, .88);
       color: white;
       cursor: pointer;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
+      z-index: 999;
       backdrop-filter: blur(10px);
+      box-shadow: 0 10px 26px rgba(0,0,0,.35);
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+    }
+
+    .close:hover {
+      background: rgba(10, 16, 30, .96);
+      border-color: rgba(255,255,255,.34);
+    }
+
+    .close:active {
+      transform: scale(.94);
     }
 
     @keyframes zoomIn {
@@ -600,23 +617,46 @@
         grid-template-columns: 36px 1fr;
         gap: 16px;
         margin-bottom: 28px;
+        align-items: stretch;
       }
-      .left, .right { grid-column: 2 !important; }
+      .left, .right {
+        grid-column: 2 !important;
+        grid-row: 1;
+      }
       .center {
         grid-column: 1;
+        grid-row: 1;
         justify-content: flex-start;
-        align-items: center;
+        align-items: stretch;
+        min-height: 100%;
       }
       .node {
-        position: relative;
-        top: auto;
-        transform: none;
+        position: absolute;
+        left: 50%;
+        top: var(--anchor-top, 50%);
+        transform: translate(-50%, -50%);
       }
       .connector {
         display: none;
       }
       .card { width: 100%; }
       .card-media { height: 210px; }
+
+      .lightbox {
+        padding: 14px;
+      }
+
+      .lightbox-content {
+        padding-top: 0;
+      }
+
+      .close {
+        top: 12px;
+        right: 12px;
+        width: 50px;
+        height: 50px;
+        font-size: 1.45rem;
+      }
     }
 
     @media (max-width: 620px) {
@@ -884,12 +924,13 @@
     function alignTimelineNodes() {
       items.forEach(item => {
         const card = item.querySelector('.card');
+        const meta = item.querySelector('.meta');
         const center = item.querySelector('.center');
         if (!card || !center) return;
 
         const itemRect = item.getBoundingClientRect();
-        const cardRect = card.getBoundingClientRect();
-        const anchorTop = (cardRect.top - itemRect.top) + (cardRect.height / 2);
+        const referenceRect = (meta || card).getBoundingClientRect();
+        const anchorTop = (referenceRect.top - itemRect.top) + (referenceRect.height / 2);
         center.style.setProperty('--anchor-top', `${anchorTop}px`);
       });
     }
